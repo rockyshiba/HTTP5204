@@ -287,4 +287,4 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
-[W]eb*.config
+geopedia/geopedia/Web.config
