@@ -1,0 +1,25 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        @*Using C# to display the current date.*@
+        Today is @DateTime.Now.ToShortDateString().
+
+        @for (int i = 1; i <= 10; i++)
+        {
+            @i<br />
+        }
+    </div>
+    @*Using C# in your HTML, you can use dynamic values. Imagine having to update copyright year on a page every year instead of using C# to calculate the current year.*@
+    Copyright @DateTime.Now.Year
+</body>
+</html>
