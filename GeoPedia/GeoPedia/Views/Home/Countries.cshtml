@@ -1,0 +1,27 @@
+﻿@model IEnumerable<GeoPedia.Models.Country>
+@*the model declaration for this strongly typed view*@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Countries</title>
+</head>
+<body>
+    @*A foreach loop that goes through each object inside the list of Country objects*@
+    @foreach(var item in Model)
+    {
+        <div>@item.Code, @item.Name</div>
+    }
+
+    @*Another foreach loop using HTML helpers inherit to the razor syntax*@
+    @foreach(var item in Model)
+    {
+        <div>@Html.DisplayNameFor(model => model.Code): @item.Code</div>
+    }
+</body>
+</html>
