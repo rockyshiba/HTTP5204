@@ -1,0 +1,18 @@
+﻿@model GeoPedia.Models.Country_Cities
+@*This view is using a view model*@
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Custom_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<h2>@Model.Ctry.Name</h2>
+
+<h2>Cities</h2>
+@foreach(var item in Model.Cities)
+{
+    <div>
+        <h3>@item.Name</h3>
+    </div>
+}

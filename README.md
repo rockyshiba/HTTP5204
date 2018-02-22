@@ -39,6 +39,7 @@ These classes inherit a parent class already defined in .NET MVC called DbContex
 
 As far as models go, this is the minimum that you can do to display contents of your database before you start defining controllers and views.
 
+# Commit 9ae6eda85732b5e924ffeb86545390ee39047ccb
 ## Making Controllers
 Controllers are the classes that mitigate events in your web application. Inside these clases are methods that are called actions. They determine what web pages are brought up and how data is passed through them. Websites made with .NET MVC use the address bar to point to a controller and action, not a specific file on the server, to access web pages.
 
@@ -76,4 +77,44 @@ Parts of C# code can be used here, much like in PHP. Prefixed with @, anything i
 ### Views/Home/Countries.cshtml
 Here's an example of a strongly typed view. These views have a @model declaration at the top of the page that will represent a model to be used throughout the page. @model is a powerful tool that allows consistent and accurate view construction. Typed views such as these require that data, stored in a model or a list of models, be passed from the controller to the view via the actions in those controllers. Take a look at the Countries action inside the Home controller to see an example of passing a model into a view.
 
-This particular view is typed to a list of Country models which allows the use of loops to process the many Country objects passed into this view. 
+This particular view is typed to a list of Country models which allows the use of loops to process the many Country objects passed into this view.
+
+# Commit
+
+## More on Views
+
+### Controllers/CityController.cs
+A new controller with an index action. 
+
+There is also a partial action named Cities that will pass a partial view to a view.
+
+### Controllers/CountriesController.cs
+A new controller. The Index action is passing a list of Country models to the view. 
+
+The Details action is passing a view model to a view. Here, the properties representing the different models in the view model are given values. 
+
+### Models/Country.cs 
+Each property can be annotated with a DataAnnotation. The Code property has been annotated with a display name so that views will display the display name over the property name.
+
+### Models/Countries_Cities.cs
+### Models/Country_Cities.cs
+These are view models. View models can carry multiple models into views which only allow a single model. Each property of these view models represents another model to be carried into views.
+
+### Views/City/_Cities.cshtml
+A partial view typed to a model meant to be rendered into another view.
+
+### Views/City/Index.cshtml
+A view that is including a partial view by using the @Html.Action() method. This method will call to an action in a controller by naming the action and/or controller as a string. The action in the controller will then execute as programmed.
+
+### Views/Countries/Index.cshtml
+A view that is using a layout. Notice that Layout has a value on line 3. The value provided is a string path to the location that the layout is in.
+
+### Views/Home/Index.cshtml
+This has been updated to be typed to a model, in this case a view model. The view is then looping through the list of objects in each property of the view model.
+
+### Shared/
+This directory contains views meant to be shared or repeated like layouts and partial views.
+
+Layout views are views that will be used in mulitple instances. Many pages have elements that stay the same so layouts are made once for this reason. By convention, they are named with a leading _ to let other developers know that these views are used many times.
+
+_Footer.cshtml is an example of a partial view. These views aren't meant to be on their own. Views incorporating partial views require razor methods to render them, like @Html.Partal([path to partial view as a string]). Partial views that incorporate data require the use of a controller action that returns a partial view result. Views that use these require the use of @Html.Action().

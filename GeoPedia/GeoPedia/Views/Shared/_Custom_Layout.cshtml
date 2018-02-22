@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+@*This is a custom made layout*@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Custom Layout</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("Countries", "Index")</li> @*Instead of hardcoded link tags, these HTML helpers will render those tags to the location of the action and controller accurrately*@
+            </ul>
+        </nav>
+    </header>
+    <main>
+        @*The RenderBody method is the placeholder for views that will use this layout. Views that use this layout will render their contents here*@
+        @RenderBody()
+    </main>
+    <footer>
+        @Html.Partial("~/Views/Shared/_Footer.cshtml")
+    </footer>
+</body>
+</html>

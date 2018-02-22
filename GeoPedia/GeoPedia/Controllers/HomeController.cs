@@ -14,7 +14,11 @@ namespace GeoPedia.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            //A view model being passed into a view
+            Countries_Cities countries_cities = new Countries_Cities();
+            countries_cities.Countries = db.Countries.ToList();
+            countries_cities.Cities = db.Cities.ToList();
+            return View(countries_cities);
         }
 
         public ActionResult Countries()

@@ -1,0 +1,13 @@
+﻿@model IEnumerable<GeoPedia.Models.Country>
+@{
+    Layout = "~/Views/Shared/_Custom_Layout.cshtml";
+}
+@*Keyword Model is used to represent the @model declaration at the top. In this case, Model refers to a list of Country objects*@
+@foreach (var item in Model)
+{
+    <div>
+        <h2>@Html.DisplayNameFor(model => model.Name): @item.Name</h2>
+        <p>@Html.DisplayNameFor(model => model.Code): @item.Code</p>
+    </div>
+    <hr />
+}

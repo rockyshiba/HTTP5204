@@ -11,6 +11,7 @@ namespace GeoPedia.Models
     public class Country
     {
         [Key] //Key annotation to denote a key, unique value
+        [Display(Name="Country Code")] //Will display Code as Country Code in the view
         public string Code { get; set; }
 
         public int Population { get; set; }

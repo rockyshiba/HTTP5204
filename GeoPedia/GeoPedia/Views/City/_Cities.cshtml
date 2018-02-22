@@ -1,0 +1,10 @@
+﻿@model IEnumerable<GeoPedia.Models.City>
+
+<div>
+@foreach(var item in Model)
+{
+    <h3>@item.Name</h3>
+    <p>@Html.DisplayNameFor(m => m.Population): @item.Population</p>
+    <p>@Html.DisplayNameFor(m => m.Mayor): @item.Mayor</p>
+}
+</div>
