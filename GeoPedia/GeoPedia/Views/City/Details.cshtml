@@ -1,0 +1,22 @@
+﻿@model GeoPedia.Models.Countries_Cities
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Custom_Layout.cshtml";
+}
+
+<h2>@Html.ActionLink(Model.City.Name, "Details", "City", new { id = Model.City.Id}, null)</h2> @*An HTML helper that will generate a link that will lead to the appropriate controller/action and provide an argument for the action, details.*@
+@*This particular link will look like [domain]/Details/City/[id]*@
+
+<p>
+    @Html.DisplayNameFor(m => m.City.Established): @if (Model.City.Established == null)
+    {
+        @Html.Raw("Unknown");
+    }
+    else
+    {
+        @Model.City.Established
+    }
+</p>
+<p>@Html.DisplayNameFor(m => m.City.Population): @Model.City.Population</p>
+<p>@Html.DisplayNameFor(m => m.Country.Name): @Model.Country.Name</p>

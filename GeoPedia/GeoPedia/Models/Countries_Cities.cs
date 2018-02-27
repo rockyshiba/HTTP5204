@@ -12,5 +12,8 @@ namespace GeoPedia.Models
     {
         public List<Country> Countries { get; set; }
         public List<City> Cities { get; set; }
+
+        public Country Country { get; set; }
+        public City City { get; set; }
     }
 }

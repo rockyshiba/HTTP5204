@@ -3,10 +3,14 @@
     Layout = "~/Views/Shared/_Custom_Layout.cshtml";
 }
 @*Keyword Model is used to represent the @model declaration at the top. In this case, Model refers to a list of Country objects*@
+
+<h2 class="text-center">Countries</h2>
 @foreach (var item in Model)
 {
     <div>
-        <h2>@Html.DisplayNameFor(model => model.Name): @item.Name</h2>
+        <h2>@Html.ActionLink(item.Name, "Details", "Countries", new { code = item.Code}, null)</h2> 
+        @*The HTML ActionLink will generate a link that will lead us to the appropriate controller/action and arguments for that action.*@
+        @*This example will generate a link like so: [domain]/countries/details/?code=[country code]*@
         <p>@Html.DisplayNameFor(model => model.Code): @item.Code</p>
     </div>
     <hr />

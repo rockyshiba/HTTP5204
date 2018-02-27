@@ -79,7 +79,7 @@ Here's an example of a strongly typed view. These views have a @model declaratio
 
 This particular view is typed to a list of Country models which allows the use of loops to process the many Country objects passed into this view.
 
-# Commit
+# Commit a820a712a3cd35df5d2d5f9b2df477832a3bb572
 
 ## More on Views
 
@@ -104,9 +104,11 @@ These are view models. View models can carry multiple models into views which on
 A partial view typed to a model meant to be rendered into another view.
 
 ### Views/City/Index.cshtml
+
 A view that is including a partial view by using the @Html.Action() method. This method will call to an action in a controller by naming the action and/or controller as a string. The action in the controller will then execute as programmed.
 
 ### Views/Countries/Index.cshtml
+
 A view that is using a layout. Notice that Layout has a value on line 3. The value provided is a string path to the location that the layout is in.
 
 ### Views/Home/Index.cshtml
@@ -118,3 +120,50 @@ This directory contains views meant to be shared or repeated like layouts and pa
 Layout views are views that will be used in mulitple instances. Many pages have elements that stay the same so layouts are made once for this reason. By convention, they are named with a leading _ to let other developers know that these views are used many times.
 
 _Footer.cshtml is an example of a partial view. These views aren't meant to be on their own. Views incorporating partial views require razor methods to render them, like @Html.Partal([path to partial view as a string]). Partial views that incorporate data require the use of a controller action that returns a partial view result. Views that use these require the use of @Html.Action().
+
+# Commit 
+
+## Error Handling
+
+I've added instances of error handling. .NET MVC has a wide array of methods to handle errors so the ones here are just two examples. For this, an Errors controller was added, an Errors directory inside Views with views, and Web.config was modified.
+
+### Try/Catch
+
+The controllers have now been modified so that error prone actions, like database interactions, are using try/catch. Take a look at the actions using a database, such as retrieval of rows, and note the use of try/catch. If all goes well, then within try there is a return to a view that displays the results of a database interaction. If something goes wrong, then there are a series of catch scenarios that pass exception details into ViewBag variables that are then passed to a view that will display the results of those exceptions. These views have ViewBag variables ready to display the values of those variables assigned from a controller. After the catch statements, there is then a return to a view that will render the errors instead of the view that shows successful database interaction.
+
+### 404
+
+This code is one you've most likely encountered. It is one of many HTTP error codes and 404 is the code for cotent that is requested but not there on the server.
+
+A 404 error cannot be easily implemented in your controllers. How would you program for something that doesn't exist? There's an easy way to prepare for 404 errors in your Web.config file. Within the system.web element, there is a "customErrors" element. When mode="On" you can redirect the user to more user-friendly error pages. You can add elements that represent the errors encountered using the "error" element. Here, if the user encounters a 404 error, the application will redirect the user to the URL provided in the "redirect" attrbute which in this case will go to the errors controller, code action.
+
+<system.web>
+
+    <customErrors mode="On" defaultRedirect="~/errors/code">
+        <error statusCode="404" redirect="~/errors/code"/>
+    </customErrors>
+    
+</system.web>
+
+## Grabing a single row from the database
+
+There are two examples of this:
+
+### CountriesController.cs
+
+In the Details action, a querystring variable is used to get a single row where in this case is a single country. Logic has been set up if the querystring does not exist or retrieve a row from the database. Go to the view and see how the links are generated that provide the necessary querystring variable to go to a single country.
+
+### CityController.cs
+
+In the Details action, a default id parameter is used to get a single city from the database. This parameter is an integer after the succeeding "/" of the action and not a querystring variable. Go to the view and see how the links are generated that provide the neccessary parameter in the URL to go to a single city.
+
+## Views, Advanced
+
+The HTML helpers can be hard to get used to at first, but the purpose here is to not hard code HTML in case the controllers and actions change which they often do. Hard coding the HTML would result in hours of having to retype the HTML and checking back and forth if your HTML is correct.
+
+Take a look at the view files and look for @HTML.ActionLink. These helpers generate the hyperlinks that will guide the user to the appropriate controller and action. Remember, the URL is looking for controllers and actions, not individual files. Views/Home/Index.cshtml is a good start to look at @Html.ActionLink.
+
+## Missing Dates
+### Models/Country.cs
+### Models/City.cs
+We may not know a certain date for an entity. Perhaps the founding of a country or a city is not known. While they are nullable in SQL, C# doesn't explicitly allow nullable date properties of an object so you must declare those properties as nullable. 

@@ -114,6 +114,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
+    <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -121,7 +122,6 @@
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Countries_Cities.cs" />
     <Compile Include="Models\Country.cs" />
-    <Compile Include="Models\Country_Cities.cs" />
     <Compile Include="Models\GeoContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -142,6 +142,10 @@
     <Content Include="Views\City\_Cities.cshtml" />
     <Content Include="Views\City\Index.cshtml" />
     <Content Include="Views\Countries\Details.cshtml" />
+    <Content Include="Views\Errors\Details.cshtml" />
+    <Content Include="Views\Errors\Missing.cshtml" />
+    <Content Include="Views\Errors\_Partial_Error.cshtml" />
+    <Content Include="Views\City\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

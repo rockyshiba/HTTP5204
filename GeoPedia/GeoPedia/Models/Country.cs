@@ -16,7 +16,9 @@ namespace GeoPedia.Models
 
         public int Population { get; set; }
         public string Continent { get; set; }
+
+        [Display(Name="Name of Country")]
         public string Name { get; set; }
-        public DateTime Established { get; set; }
+        public Nullable<DateTime> Established { get; set; }
     }
 }

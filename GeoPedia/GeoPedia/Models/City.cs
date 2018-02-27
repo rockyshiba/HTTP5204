@@ -16,6 +16,6 @@ namespace GeoPedia.Models
         public int Population { get; set; }
         public string Mayor { get; set; }
         public string Country_Code { get; set; }
-        public DateTime Established { get; set; }
+        public Nullable<DateTime> Established { get; set; } //Dates are nullable in SQL. In order for them to be nullable in C#, you have to declare them as Nullable. 
     }
 }
