@@ -121,7 +121,7 @@ Layout views are views that will be used in mulitple instances. Many pages have 
 
 _Footer.cshtml is an example of a partial view. These views aren't meant to be on their own. Views incorporating partial views require razor methods to render them, like @Html.Partal([path to partial view as a string]). Partial views that incorporate data require the use of a controller action that returns a partial view result. Views that use these require the use of @Html.Action().
 
-# Commit 
+# Commit 7813fa15a54b4a4d17d17ab42f23f91ea5838d67
 
 ## Error Handling
 
@@ -167,3 +167,31 @@ Take a look at the view files and look for @HTML.ActionLink. These helpers gener
 ### Models/Country.cs
 ### Models/City.cs
 We may not know a certain date for an entity. Perhaps the founding of a country or a city is not known. While they are nullable in SQL, C# doesn't explicitly allow nullable date properties of an object so you must declare those properties as nullable. 
+
+# Commit 
+
+## Forms
+
+This commit focuses on making forms and will use City as an example. 
+
+The best approach to constructing forms in .NET MVC is to know your data first. Ultimately, all your data is stored to some standard: numbers stored as some form of number, dates stored as dates, and text stored in various forms of varchar. What goes out, must go in and so your data has to be manipulated to the same standards: providing a number must be a number, a date as some form of date string, and text which can allow almost anything. 
+
+### Models/City.cs
+With your models set up, make use of the DataAnnotations provided by the framework. Here you can manipulate how your data will be displayed by using DisplayName. Although the properties of the models might not be user firendly, you can make them user friendly using DisplayName. Columns that are NOT NULL can be reflected in model properties as [Required]. You can also see examples of how these properties are to be displayed in <input> tags, such as date. Although not available here, there is the [Email] annotation to validate properties that are to expect email formattting. 
+
+### Controllers/CityController.cs
+
+Think of controllers as gatekeepers of your data-driven website. There are a number of actions that will manipulate the database(s) here: Add, Edit, and Delete. Notice and each of these actions are using method overloading. Each action is set up for GET and POST. The Actions set for GET are annotated with [HttpGet] and the actions for POST are annotated with [HttpPost]. The GET actions are responsible for page requests meaning they will bring database contents to view. The POST actions are for post requests meaning they will take form data from the page and process those contents to then be passed off into data storage. These actions are extensively prepared for when things go wrong using try/catch.
+
+There are actions with parameters and these are used to determine some interaction with your views and models. By default, the id parameter is reserved in this framework. When you pass id into an action, the URL request is expecting {controller}/{action}/{id} where id is a number to be used inside the action. There are parameters that are strings and by default, the framework is expecting querystring variables in the URL. For example, if there is a parameter that looks like this (string code), then the action will look for a url like this {controller}/{action}/?code={value} where value will be used in the action referenced by "code". Actions that use Model parameters are typically ones that expect a post action. Take a look at the HttpPost actions for Add and Edit. They are defined with the City model with an instance, city like so: (City city). These actions are waiting for a post object to be passed in during a post request meaning that the form values to be passed into the action conforms to the definition of that model. The "Name" attribute of the input tags in the views share the same name as model properties and .NET MVC interprets these as property values when the user submits a form. The property values together form an object to be then used inside of the post action.
+
+### Views/City
+
+This directory contains the views necessary for the user to interact with the website. In order for them to interact, they are set up with forms and Razor uses Html.BeginForm() to mark the beginning and end of a form. 
+
+HTML helpers are used extensively here to create the appropriate HTML tags necessary to create a form and populate input fields where necessary. These helpers cut down on the amount of typing needed for HTML tags and help to avoid the common mistake of mistyping HTML. The helpers use Lamba expressions which are used to represent the model. Views in .NET MVC are strongly typed so the lamba expressions refer to the model that the view is typed to. Helpers like TextBoxFor and EditorFor create input tags while DisplayNameFor and LabelFor create static text to appropriately label those input tags.
+
+Validation messages for each property of a model can be displayed here using ValidationMessageFor. These are hidden when there are no form errors but display only when the form has failed. Required fields and incorrect input format on forms will trigger these helpers.
+
+### Views/City/Details.cshtml
+Remember that you can use programming logic in these views so some of that is used to prevent C# errors that might arise. Dates cannot display as null in these views so if logic has been employed to detect if they are null to display something else. You might also have related models that are optional but Razor does not allow null models so if logic is used there as well.

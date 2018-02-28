@@ -1,0 +1,61 @@
+﻿@model GeoPedia.Models.City
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Custom_Layout.cshtml";
+}
+
+<h2>Add a City</h2>
+
+@using(Html.BeginForm("Add", "City"))
+{
+    @Html.AntiForgeryToken() @*A randomly generated string that helps validate that action processing POST is getting POST values from this form*@
+    <div>
+        <div>
+            @Html.LabelFor(c => c.Name):
+        </div>
+        <div>
+            @Html.TextBoxFor(c => c.Name)
+            @Html.ValidationMessageFor(c => c.Name)
+        </div>
+    </div>
+    <div>
+        <div>
+            @Html.LabelFor(c => c.Population):
+        </div>
+        <div>
+            @Html.TextBoxFor(c => c.Population)
+            @Html.ValidationMessageFor(c => c.Population)
+        </div>
+    </div>
+    <div>
+        <div>
+            @Html.LabelFor(c => c.Mayor):
+        </div>
+        <div>
+            @Html.TextBoxFor(c => c.Mayor)
+            @Html.ValidationMessageFor(c => c.Mayor)
+        </div>
+    </div>
+    <div>
+        <div>
+            @Html.LabelFor(c => c.Country_Code)
+        </div>
+        <div>
+            @*A dropdownlist populated by the database. ViewBag.Countries is from the controller and each object is supplying their Code as the value and Name as the text for the list*@
+            @Html.DropDownListFor(c => c.Country_Code, new SelectList(ViewBag.Countries, "Code", "Name"), "-")
+            @Html.ValidationMessageFor(c => c.Country_Code)
+        </div>
+    </div>
+    <div>
+        <div>
+            @Html.LabelFor(c => c.Established)
+        </div>
+        <div>
+            @Html.TextBoxFor(c => c.Established, new { type = "date" }) @*This is how you can add attributes to HTML elements. HTML5 has a type attribute that allows the input field to render specifically. This is not supported across all browsers*@
+            @Html.ValidationMessageFor(c => c.Established)
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="Create" />
+    </div>
+}

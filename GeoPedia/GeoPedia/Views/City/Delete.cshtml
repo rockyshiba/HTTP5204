@@ -1,0 +1,40 @@
+﻿@model GeoPedia.Models.City
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Custom_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete @Model.Name?</h3>
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    
+    <div>
+        <div>
+            @Html.DisplayNameFor(model => model.Id): @Html.DisplayFor(model => model.Id)
+        </div>
+        <div>
+            @Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)
+        </div>
+        <div>
+            @Html.DisplayNameFor(model => model.Population): @Html.DisplayFor(model => model.Population)
+        </div>
+        <div>
+            @Html.DisplayNameFor(model => model.Mayor): @Html.DisplayFor(model => model.Mayor)
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.Id)
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete"/> |
+            @Html.ActionLink("Back to Cities", "Index")
+        </div>
+    }
+</div>

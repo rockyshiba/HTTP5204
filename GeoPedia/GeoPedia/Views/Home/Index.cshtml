@@ -20,7 +20,7 @@
     @foreach (var item in Model.Cities)
     {
         <div>
-            <h3>@Html.ActionLink(item.Name, "Details", "Cities", new { id = item.Id}, null)</h3>@*An HTML helper that will generate a link that will lead to the appropriate controller/action and provide an argument for the action, details.*@
+            <h3>@Html.ActionLink(item.Name, "Details", "City", new { id = item.Id}, null)</h3>@*An HTML helper that will generate a link that will lead to the appropriate controller/action and provide an argument for the action, details.*@
         </div>
             <hr />
     }

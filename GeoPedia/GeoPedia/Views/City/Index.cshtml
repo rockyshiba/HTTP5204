@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Custom_Layout.cshtml";
 }
 
-<h2 class="text-center">Cities</h2>
+<h2 class="text-center">Cities <small>@Html.ActionLink("Add", "Add")</small></h2> 
 
 @*This razor method calls to the Cities action which returns a partialviewresult*@
 @Html.Action("Cities")

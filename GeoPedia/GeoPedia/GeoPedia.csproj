@@ -122,6 +122,7 @@
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Countries_Cities.cs" />
     <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\ErrorHandler.cs" />
     <Compile Include="Models\GeoContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -146,6 +147,9 @@
     <Content Include="Views\Errors\Missing.cshtml" />
     <Content Include="Views\Errors\_Partial_Error.cshtml" />
     <Content Include="Views\City\Details.cshtml" />
+    <Content Include="Views\City\Add.cshtml" />
+    <Content Include="Views\City\Edit.cshtml" />
+    <Content Include="Views\City\Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
