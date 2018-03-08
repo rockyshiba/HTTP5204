@@ -1,0 +1,58 @@
+﻿@model GeoPedia.Models.Country
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Custom_Layout.cshtml";
+}
+
+<h2>Add</h2>
+
+@using (Html.BeginForm("Add", "Countries"))
+{
+    <div>
+        <div>
+            @Html.LabelFor(model => model.Code)
+        </div>
+        <div>
+            @*How to add a class to a HTML helper*@
+            @Html.TextBoxFor(model => model.Code)
+            @Html.ValidationMessageFor(model => model.Code)
+        </div>  
+    </div>
+    <div>
+        <div>
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+    </div>
+    <div>
+        <div>
+            @Html.LabelFor(model => model.Continent)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.Continent)
+            @Html.ValidationMessageFor(model => model.Continent)
+        </div>
+    </div>
+    <div>
+        <div>
+            @Html.LabelFor(model => model.Established)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.Established, new { @type = "date"})
+            @Html.ValidationMessageFor(model => model.Established)
+        </div>
+    </div>
+    <div>
+        <div>
+            @Html.LabelFor(model => model.Population)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.Population)
+            @Html.ValidationMessageFor(model => model.Population)
+        </div>
+    </div>
+    <input type="submit" value="Add a Country" />
+}

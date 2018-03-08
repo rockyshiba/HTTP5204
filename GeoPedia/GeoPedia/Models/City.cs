@@ -26,7 +26,7 @@ namespace GeoPedia.Models
         public string Country_Code { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)] //This date format seems to be the right one to display an existing date from the database
         public Nullable<DateTime> Established { get; set; } //Dates are nullable in SQL. In order for them to be nullable in C#, you have to declare them as Nullable. 
     }
 }

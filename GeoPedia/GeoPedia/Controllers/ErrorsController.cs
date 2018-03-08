@@ -11,7 +11,7 @@ namespace GeoPedia.Controllers
         // GET: Errors
         public ActionResult Index()
         {
-            return View();
+            return View("~/Views/Errors/Details.cshtml");
         }
 
         public ActionResult Code(int? id)

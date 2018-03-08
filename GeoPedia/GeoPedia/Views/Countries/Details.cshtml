@@ -7,12 +7,14 @@
 
 <h2>Details</h2>
 
-<h2>@Html.ActionLink(Model.Country.Name, "Details", "Countries", new { code = Model.Country.Code}, null)</h2>
+<h2>@Html.ActionLink(Model.Country.Name, "Details", "Countries", new { code = Model.Country.Code}, null) | <small>@Html.ActionLink("Edit", "Edit", "Countries", new { code = Model.Country.Code }, null) | @Html.ActionLink("Delete", "Delete", "Countries", new { code = Model.Country.Code }, null)</small></h2>
 
+<h3>Population</h3>
+<p>@Model.Country.Population</p>
 <h2>Cities</h2>
 @foreach(var item in Model.Cities)
 {
     <div>
-        <h3>@item.Name</h3>
+        <h5>@Html.ActionLink(item.Name, "Details", "City", new { id = item.Id }, null)</h5>
     </div>
 }

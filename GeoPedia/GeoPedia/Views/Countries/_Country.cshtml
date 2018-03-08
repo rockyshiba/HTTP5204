@@ -1,0 +1,6 @@
+﻿@model GeoPedia.Models.Country
+
+@if(Model != null)
+{
+    <h3>@Html.ActionLink(Model.Name, "Details", "Countries", new { code =  Model.Code }, null)</h3>
+}

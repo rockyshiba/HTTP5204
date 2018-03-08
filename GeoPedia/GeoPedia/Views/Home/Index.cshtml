@@ -4,18 +4,72 @@
 }
 
 <section id="countries">
+    <div class="row"><!--BEGIN row-->
+        <div class="col-lg-6 col-lg-offset-3">
+            @using (Ajax.BeginForm("Countries_Cities_Search", "Home",
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    UpdateTargetId = "search_results",
+                    InsertionMode = InsertionMode.Replace
+                }, new { id = "search_form", autocomplete="off" }
+                ))
+            {
+                <input type="text" name="term" class="form-control" placeholder="Search for a country or city here..." style="margin-top: 20px"/>
+            }
+            <div id="search_results">
+
+            </div>
+        </div>
+    </div><!--END row-->
+    <div class="row"><!--BEGIN row-->
+        <div class="col-lg-6">
+            <h2 class="text-center">@Html.ActionLink("Countries", "Index", "Countries")</h2>
+            @using (Ajax.BeginForm("Countries_DDL", "Home",
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    UpdateTargetId = "country_ddl_result",
+                    InsertionMode = InsertionMode.Replace
+                }, new { id = "country_form" }))
+            {
+                @Html.DropDownListFor(model => model.Country,
+                    new SelectList(Model.Countries, "Code", "Name"),
+                    "-Select a country-",
+                    new { id = "country_ddl" })
+            }
+            <div id="country_ddl_result"></div>
+        </div>
+        <div class="col-lg-6">
+            <h2 class="text-center">@Html.ActionLink("Cities", "Index", "City")</h2>
+            @using (Ajax.BeginForm("City_DDL", "Home",
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    UpdateTargetId = "city_ddl_result",
+                    InsertionMode = InsertionMode.Replace
+                }, new { id = "city_form" }))
+            {
+                @Html.DropDownListFor(model => model.City,
+                    new SelectList(Model.Cities, "Id", "Name"),
+                    "-Select a city-",
+                    new { id = "city_ddl" })
+            }
+            <div id="city_ddl_result"></div>
+        </div>
+    </div><!--END row-->
+</section>
+<!--<section id="cities">
     <h2 class="text-center">@Html.ActionLink("Countries", "Index", "Countries")</h2>
     @foreach (var item in Model.Countries)
     {
         <div>
-            <h3>@Html.ActionLink(item.Name, "Details", "Countries", new { code = item.Code}, null)</h3>
+            <h3>@Html.ActionLink(item.Name, "Details", "Countries", new { code = item.Code }, null)</h3>
             @*The HTML ActionLink will generate a link that will lead us to the appropriate controller/action and arguments for that action.*@
             @*This example will generate a link like so: [domain]/countries/details/?code=[country code]*@
         </div>
-            <hr />
+        <hr />
     }
-</section>
-<section id="cities">
     <h2 class="text-center">@Html.ActionLink("Cities", "Index", "City")</h2>
     @foreach (var item in Model.Cities)
     {
@@ -24,4 +78,5 @@
         </div>
             <hr />
     }
-</section>
+</section>-->
+<script src="~/Scripts/Home/homepage_ajax.js"></script><!--Javascript responsible for form-->

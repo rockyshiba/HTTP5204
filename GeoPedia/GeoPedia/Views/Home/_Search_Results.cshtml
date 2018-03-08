@@ -1,0 +1,23 @@
+﻿@model GeoPedia.Models.Countries_Cities
+
+@if (Model.Countries != null)
+{
+    <h4>Countries</h4>
+    foreach (var item in Model.Countries)
+    {
+        <div>
+            <h5>@Html.ActionLink(item.Name, "Details", "Countries", new { code = item.Code }, null)</h5>
+        </div>
+    }
+}
+
+@if (Model.Cities != null)
+{
+    <h4>Cities</h4>
+    foreach (var item in Model.Cities)
+    {
+        <div>
+            <h5>@Html.ActionLink(item.Name, "Details", "City", new { id = item.Id }, null)</h5>
+        </div>
+    }
+}

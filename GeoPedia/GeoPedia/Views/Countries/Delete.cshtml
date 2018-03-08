@@ -1,0 +1,26 @@
+﻿@model GeoPedia.Models.Country
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Custom_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<p>Are you sure you want to delete @Model.Name</p>
+
+<div>
+    <div>
+        @Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)
+    </div>
+    <div>
+        @Html.DisplayNameFor(model => model.Continent) :@Html.DisplayFor(model => model.Continent)
+    </div>
+</div>
+
+@Html.ActionLink("No, I do not want to delete", "Details", "Countries", new { code = Model.Code}, null)
+@using (Html.BeginForm())
+{
+    <p class="text-danger">@TempData["DbExceptionMessage"]</p>
+    <input type="submit" value="Yes, Delete this" /> 
+}
+

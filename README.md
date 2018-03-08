@@ -168,7 +168,7 @@ Take a look at the view files and look for @HTML.ActionLink. These helpers gener
 ### Models/City.cs
 We may not know a certain date for an entity. Perhaps the founding of a country or a city is not known. While they are nullable in SQL, C# doesn't explicitly allow nullable date properties of an object so you must declare those properties as nullable. 
 
-# Commit 
+# Commit cca99a082337d5dc2ac325cd9f73ad45a5486f44
 
 ## Forms
 
@@ -177,7 +177,7 @@ This commit focuses on making forms and will use City as an example.
 The best approach to constructing forms in .NET MVC is to know your data first. Ultimately, all your data is stored to some standard: numbers stored as some form of number, dates stored as dates, and text stored in various forms of varchar. What goes out, must go in and so your data has to be manipulated to the same standards: providing a number must be a number, a date as some form of date string, and text which can allow almost anything. 
 
 ### Models/City.cs
-With your models set up, make use of the DataAnnotations provided by the framework. Here you can manipulate how your data will be displayed by using DisplayName. Although the properties of the models might not be user firendly, you can make them user friendly using DisplayName. Columns that are NOT NULL can be reflected in model properties as [Required]. You can also see examples of how these properties are to be displayed in <input> tags, such as date. Although not available here, there is the [Email] annotation to validate properties that are to expect email formattting. 
+With your models set up, make use of the DataAnnotations provided by the framework. Here you can manipulate how your data will be displayed by using DisplayName. Although the properties of the models might not be user firendly, you can make them user friendly using DisplayName. Columns that are NOT NULL can be reflected in model properties as [Required]. You can also see examples of how these properties are to be displayed in <<input>> tags, such as date. Although not available here, there is the [Email] annotation to validate properties that are to expect email formattting. 
 
 ### Controllers/CityController.cs
 
@@ -195,3 +195,80 @@ Validation messages for each property of a model can be displayed here using Val
 
 ### Views/City/Details.cshtml
 Remember that you can use programming logic in these views so some of that is used to prevent C# errors that might arise. Dates cannot display as null in these views so if logic has been employed to detect if they are null to display something else. You might also have related models that are optional but Razor does not allow null models so if logic is used there as well.
+
+#Commit 
+
+## Forms - AJAX
+
+AJAX enhances user experience by making it appear as though something has happened instantly on a webpage. This commit will explore the different uses of AJAX through a search bar, a drop down list, and validation.
+
+### Requirements
+
+In order to use the features of AJAX in .NET MVC, the following nuget packages are required:
+jQuery.Validation
+Microsoft.jQuery.Unobstrusive.Ajax
+Microsoft.jQuery.Unobstrusive.Validation
+
+These will include the JavaScript files necessary for AJAX in .NET MVC. Those Javascript files will then appear in your Scripts directory and must be referenced in your views, assuming that JQuery is already referenced:
+
+jquery.unobtrusive-ajax.min.js OR jquery.unobtrusive-ajax.js
+jquery.validate.min.js OR jquery.validate.js
+jquery.validate.unobtrusive.min.js OR jquery.validate.unobtrusive.js
+
+The example on this repository is using the minified versions. 
+
+## Search using AJAX
+
+### HomeController.cs
+
+AJAX takes in requests and retrieves results asynchronously as in the page does not load to handle transactions with the server. With this in mind, we cannot return a full view in .NET MVC in order for the effect of AJAX to occur so a Partial View must do. The Countries_Cities_Search action serves this purpose by returning a Partial View containing the countries and/or cities queried by the user from the view. Using FormCollection, this action will store the result inside a variable by using an input with name="term". This variable is then used to retrieve rows from the database that are LIKE the variable using the .Contains method. This is akin to coding WHERE ... LIKE ... in SQL. The rows are then stored inside a view model, countries_Cities, that then gets passed into a partial view for that partial view to use. 
+
+### /Views/Home/_Search_Results.cshtml
+
+The Partial View that be asynchronously rendered on a page. It is using a view model to render both countries and cities because views, full or partial, are strongly typed to a model. Certain C# datatypes, like DateTime and Int, cannot render null in a view so If statements are used here to detect the prescence of null results to prevent any error resulting from trying to display null.
+
+### /Views/Home/Index.cshtml
+
+The view reponsible for the Index action of the Home controller. It has been altered to include AJAX forms starting on line 9. .NET MVC handles most of the Javascript responsible for AJAX by using Ajax.BeginForm instead of the regular Html.BeginForm. In addition to naming the action and controller this form will post to, AJAX options need to be declared. HttpMethod can be declared as POST or GET, UpdateTargetId will write the results of the form action to an HTML element with the id provided, and InsertionMode determines how the results are to be written in the target id. This example replacing the contents of the target id with the results; there are other options like appending and prepending the contents of the target id. Additional attributes have been given to the form such as id and autocomplete, the latter which disables suggested terms provided by the browser. 
+
+Below the form is a div with the target id of "search_results" targetted by the ajax form that will contain the results of the AJAX call. 
+
+### Scripts/Home/homepage_ajax.js
+
+To achieve the effect of a realtime search, additional javascript is required on top of the AJAX javascript already provided by the framework. On line 18, the jQuery keyup function on the form is used to submit the form. When browser detects that a key has been pressed and lifted and the cursor is in the form, the form will submit. However, because the form has been defined as an AJAX form, the form will not full submit (it will return false) but the AJAX code provided by the framework will send the contents of the form to the specified controller/action. 
+
+## Drop down list AJAX
+
+### Controllers/HomeController.cs
+
+Much like AJAX using the search bar, the City_DDL action will handle AJAX requests from the view and will return a Partial View. The parameter being used here is the same, FormCollection, and it is looking for the value of an input tag with name="City". Converting the string id to an int, the action is retrieving a row from the database and passing it into the partial view. 
+
+The drop down list is prepopulated so a view model containing countries and cities from the database is passed into the view. The view will then use this to populate the drop down list.
+
+### /Views/City/_City.cshtml
+
+The Partial View typed to the City model. This Partial View doesn't necessarily have to be used with AJAX but this view will work. Again, to avoid unnecessary errors due to rendering nulls, the view is checking if the model sent to it has any content. 
+
+### /Views/Home/Index.cshtml
+
+The drop down list for the AJAX call starts on line 45. As with the search bar, the drop down list is contained within an AJAX form with similar AJAX configurations; the method will be POST, it will update an id element, and it will replace the contents of that element.
+
+Line 53 is the HTML helper to create a drop down list. The lambda expression populates the drop down list from the database and assigns the value and displayed text for each option tag in the drop down list. In this example, the Cities property of the model contains a list of cities from the database and will use the Id property to fill in the value attribute and the Name property to fill in the option tag for the user to see the name of the city. "-Select a City-" is the default option and contains no value and an id attribute has been assigned with "city_ddl".
+
+### Scripts/Home/homepage_ajax.js
+
+Using the Change function from jQuery, the form containing the drop down list will submit when the drop down list, in this example id="city_ddl" changes its value.
+
+## AJAX validation 
+
+It's incredibly useful to prevent a form submission if a known error is to occur. The Country table is using a non-autogenerated primary key using 3 characters to denote a country code that is provided by the user upon the creation of a country row. Primary keys are unique so it's preferrable to let the user know that a country code already exists in the database. 
+
+### Models/Country.cs
+
+The Code property has a Remote annotation. This annotation acts as another type of validation. While the other validation annotations add a layer of validation at the C# level, Remote is asynchronously checking the database for existing values. Remote requires the name of the action and the controller containing that action for it to work and can provide a custom error message if the developer wishes. In this example, the IsCodeAvailable action inside the Countries controller will handle the database operations.
+
+### Controllers/CountriesController.cs
+
+IsCodeAvailable will check the database for existing country codes using a string parameter called "code". Unlike other actions, this action returns a Json result. Look carefully at the return statement: if there are rows in the database, then false is returned in Json and triggers a validation violation somewhere in the framework. If there are no rows in the database, then true is returned in Json and no validation violation is detected.
+
+When the application runs, the "code" arugment is provided by the user when the user enters in a value for the property of the model used in the view. In this example, when the user enters in a value for a country code in the view, .NET MVC will use IsCodeAvailable as declared by the Remote tag in the Country model and return a Json result from the database. If there are no results, then user can submit the form.

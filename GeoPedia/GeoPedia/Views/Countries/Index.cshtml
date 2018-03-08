@@ -3,8 +3,10 @@
     Layout = "~/Views/Shared/_Custom_Layout.cshtml";
 }
 @*Keyword Model is used to represent the @model declaration at the top. In this case, Model refers to a list of Country objects*@
-
-<h2 class="text-center">Countries</h2>
+<div>
+    <h2 class="text-center">Countries</h2>
+    @Html.ActionLink("Add", "Add")
+</div>
 @foreach (var item in Model)
 {
     <div>
