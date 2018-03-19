@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ClassExampleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Population" Type="int" />
+          <Property Name="Mayor" Type="varchar" MaxLength="50" />
+          <Property Name="Country_Code" Type="char" MaxLength="3" />
+          <Property Name="Established" Type="date" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="Population" Type="int" />
+          <Property Name="Continent" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Established" Type="date" />
+        </EntityType>
+        <EntityType Name="Site_Roles">
+          <Key>
+            <PropertyRef Name="Role_Code" />
+          </Key>
+          <Property Name="Role_Name" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Role_Description" Type="varchar" MaxLength="1000" />
+          <Property Name="Role_Code" Type="char" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Site_Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="User_Role" Type="char" MaxLength="3" />
+        </EntityType>
+        <Association Name="city_country_code_fk">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="Country_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Site_User__User___3493CFA7">
+          <End Role="Site_Roles" Type="Self.Site_Roles" Multiplicity="0..1" />
+          <End Role="Site_Users" Type="Self.Site_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Site_Roles">
+              <PropertyRef Name="Role_Code" />
+            </Principal>
+            <Dependent Role="Site_Users">
+              <PropertyRef Name="User_Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ClassExampleModelStoreContainer">
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Site_Roles" EntityType="Self.Site_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Site_Users" EntityType="Self.Site_Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="city_country_code_fk" Association="Self.city_country_code_fk">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Site_User__User___3493CFA7" Association="Self.FK__Site_User__User___3493CFA7">
+            <End Role="Site_Roles" EntitySet="Site_Roles" />
+            <End Role="Site_Users" EntitySet="Site_Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ClassExampleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Population" Type="Int32" />
+          <Property Name="Mayor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country_Code" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Established" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Country" Relationship="Self.city_country_code_fk" FromRole="City" ToRole="Country" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Population" Type="Int32" />
+          <Property Name="Continent" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Established" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Cities" Relationship="Self.city_country_code_fk" FromRole="Country" ToRole="City" />
+        </EntityType>
+        <EntityType Name="Site_Roles">
+          <Key>
+            <PropertyRef Name="Role_Code" />
+          </Key>
+          <Property Name="Role_Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role_Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Role_Code" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Site_Users" Relationship="Self.FK__Site_User__User___3493CFA7" FromRole="Site_Roles" ToRole="Site_Users" />
+        </EntityType>
+        <EntityType Name="Site_Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="User_Role" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Site_Roles" Relationship="Self.FK__Site_User__User___3493CFA7" FromRole="Site_Users" ToRole="Site_Roles" />
+        </EntityType>
+        <Association Name="city_country_code_fk">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="Country_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Site_User__User___3493CFA7">
+          <End Role="Site_Roles" Type="Self.Site_Roles" Multiplicity="0..1" />
+          <End Role="Site_Users" Type="Self.Site_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Site_Roles">
+              <PropertyRef Name="Role_Code" />
+            </Principal>
+            <Dependent Role="Site_Users">
+              <PropertyRef Name="User_Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GeoContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Site_Roles" EntityType="Self.Site_Roles" />
+          <EntitySet Name="Site_Users" EntityType="Self.Site_Users" />
+          <AssociationSet Name="city_country_code_fk" Association="Self.city_country_code_fk">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="City" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Site_User__User___3493CFA7" Association="Self.FK__Site_User__User___3493CFA7">
+            <End Role="Site_Roles" EntitySet="Site_Roles" />
+            <End Role="Site_Users" EntitySet="Site_Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ClassExampleModelStoreContainer" CdmEntityContainer="GeoContext">
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="ClassExampleModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Population" ColumnName="Population" />
+                <ScalarProperty Name="Mayor" ColumnName="Mayor" />
+                <ScalarProperty Name="Country_Code" ColumnName="Country_Code" />
+                <ScalarProperty Name="Established" ColumnName="Established" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="ClassExampleModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Population" ColumnName="Population" />
+                <ScalarProperty Name="Continent" ColumnName="Continent" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Established" ColumnName="Established" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Site_Roles">
+            <EntityTypeMapping TypeName="ClassExampleModel.Site_Roles">
+              <MappingFragment StoreEntitySet="Site_Roles">
+                <ScalarProperty Name="Role_Name" ColumnName="Role_Name" />
+                <ScalarProperty Name="Role_Description" ColumnName="Role_Description" />
+                <ScalarProperty Name="Role_Code" ColumnName="Role_Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Site_Users">
+            <EntityTypeMapping TypeName="ClassExampleModel.Site_Users">
+              <MappingFragment StoreEntitySet="Site_Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="User_Role" ColumnName="User_Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
