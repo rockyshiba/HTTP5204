@@ -196,9 +196,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Buddy_City.cs" />
+    <Compile Include="Models\Buddy_Country.cs" />
+    <Compile Include="Models\Buddy_Site_Users.cs" />
     <Compile Include="Models\City.cs">
       <DependentUpon>GPModels.tt</DependentUpon>
     </Compile>
@@ -220,6 +224,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GPModels.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\MyRoleProvider.cs" />
     <Compile Include="Models\Site_Roles.cs">
       <DependentUpon>GPModels.tt</DependentUpon>
     </Compile>
@@ -264,6 +269,8 @@
     <Content Include="Views\Cities\Details.cshtml" />
     <Content Include="Views\Cities\Edit.cshtml" />
     <Content Include="Views\Cities\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -37,9 +37,11 @@ namespace GeoPedia.Controllers
         }
 
         // GET: Cities/Create
+        [Authorize]
         public ActionResult Create()
         {
-            ViewBag.Country_Code = new SelectList(db.Countries, "Code", "Continent");
+            //ViewBag.Country_Code = new SelectList(db.Countries, "Code", "Continent");
+            ViewBag.Countries = db.Countries.ToList();
             return View();
         }
 
@@ -57,7 +59,8 @@ namespace GeoPedia.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Country_Code = new SelectList(db.Countries, "Code", "Continent", city.Country_Code);
+            //ViewBag.Country_Code = new SelectList(db.Countries, "Code", "Continent", city.Country_Code);
+            ViewBag.Countries = db.Countries.ToList();
             return View(city);
         }
 

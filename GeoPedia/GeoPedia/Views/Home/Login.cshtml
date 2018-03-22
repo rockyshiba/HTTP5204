@@ -1,0 +1,22 @@
+﻿@model GeoPedia.Models.Site_Users
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<p>
+    @ViewBag.Message
+</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div>
+        @Html.LabelFor(su => su.Username): @Html.TextBoxFor(su => su.Username)
+    </div>
+    <div>
+        @Html.LabelFor(su => su.Password): @Html.TextBoxFor(su => su.Password)
+    </div>
+    <input type="submit" value="Login" />
+}

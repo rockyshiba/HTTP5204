@@ -123,5 +123,11 @@ namespace GeoPedia.Controllers
             }
             base.Dispose(disposing);
         }
+
+        //Custom code
+        public JsonResult IsCodeAvailable(string code)
+        {
+            return Json(!db.Countries.Any(c => c.Code.ToUpper() == code.ToUpper()), JsonRequestBehavior.AllowGet);
+        }
     }
 }
