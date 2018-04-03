@@ -1,0 +1,23 @@
+﻿@model GeoPedia.Models.VM_Countries_Cities
+
+@if (Model.Countries.Count > 0)
+{
+    <h3>@Html.ActionLink("Countries", "Index", "Countries")</h3>
+    foreach (var item in Model.Countries)
+    {
+        <div>
+            <h4>@Html.ActionLink(item.Name, "Details", "Countries", new { id = item.Code}, null)</h4>
+        </div>
+    }
+}
+
+@if (Model.Cities.Count > 0)
+{
+    <h3>@Html.ActionLink("Cities", "Index", "Cities")</h3>
+    foreach (var item in Model.Cities)
+    {
+        <div>
+            <h4>@Html.ActionLink(item.Name, "Details", "Cities", new { id = item.Id }, null)</h4>
+        </div>
+    }
+}

@@ -2,50 +2,35 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Custom_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Countries</h2>
 
+@*Restricting certain HTML to user roles. If the user is not in this role, then this HTML will not render to the page*@
+@if (User.IsInRole("Admin"))
+{
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Population)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Continent)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Established)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Population)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Continent)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Established)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Code }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Code }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Code })
-        </td>
-    </tr>
 }
 
-</table>
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+        @foreach(var item in Model)
+        {
+            @*You can dynamically assign ids to HTML elements using a loop*@
+            <div id="@item.Code">
+                <h4>@Html.ActionLink(item.Name, "Details", new { id = item.Code})</h4>
+                <div>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        @*The @: allows the rendering of text. Without it, | would be an extension of @Html.ActionLink*@
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Code }) @: | 
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Code })
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

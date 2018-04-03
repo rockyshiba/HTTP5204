@@ -10,122 +10,115 @@ using GeoPedia.Models;
 
 namespace GeoPedia.Controllers
 {
-    public class CountriesController : Controller
+    public class SiteUsersController : Controller
     {
         private GeoContext db = new GeoContext();
 
-        // GET: Countries
+        // GET: SiteUsers
         public ActionResult Index()
         {
-            try
-            {
-                return View(db.Countries.ToList());
-            }
-            catch(Exception genericException)
-            {
-                ViewBag.ExceptionMessage = genericException.Message;
-            }
-
-            return View("~/Views/Error/Index.cshtml");
+            var site_Users = db.Site_Users.Include(s => s.Site_Roles);
+            return View(site_Users.ToList());
         }
 
-        // GET: Countries/Details/5
-        public ActionResult Details(string id)
+        // GET: SiteUsers/Details/5
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Country country = db.Countries.Find(id);
-            if (country == null)
+            Site_Users site_Users = db.Site_Users.Find(id);
+            if (site_Users == null)
             {
                 return HttpNotFound();
             }
-            return View(country);
+            return View(site_Users);
         }
 
-        // GET: Countries/Create
-        [Authorize(Roles = "Admin")]
+        // GET: SiteUsers/Create
         public ActionResult Create()
         {
+            ViewBag.User_Role = new SelectList(db.Site_Roles, "Role_Code", "Role_Name");
             return View();
         }
 
-        // POST: Countries/Create
+        // POST: SiteUsers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        public ActionResult Create([Bind(Include = "Code,Population,Continent,Name,Established")] Country country)
+        public ActionResult Create([Bind(Include = "Id,Username,Email,Password,User_Role")] Site_Users site_Users)
         {
             if (ModelState.IsValid)
             {
-                db.Countries.Add(country);
+                //Before adding this user, hash the password
+                site_Users.Password = Encryptor.Sha256String(site_Users.Password);
+
+                db.Site_Users.Add(site_Users);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(country);
+            ViewBag.User_Role = new SelectList(db.Site_Roles, "Role_Code", "Role_Name", site_Users.User_Role);
+            return View(site_Users);
         }
 
-        // GET: Countries/Edit/5
-        [Authorize(Roles = "Admin")]
-        public ActionResult Edit(string id)
+        // GET: SiteUsers/Edit/5
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Country country = db.Countries.Find(id);
-            if (country == null)
+            Site_Users site_Users = db.Site_Users.Find(id);
+            if (site_Users == null)
             {
                 return HttpNotFound();
             }
-            return View(country);
+            ViewBag.User_Role = new SelectList(db.Site_Roles, "Role_Code", "Role_Name", site_Users.User_Role);
+            return View(site_Users);
         }
 
-        // POST: Countries/Edit/5
+        // POST: SiteUsers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        public ActionResult Edit([Bind(Include = "Code,Population,Continent,Name,Established")] Country country)
+        public ActionResult Edit([Bind(Include = "Id,Username,Email,Password,User_Role")] Site_Users site_Users)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(country).State = EntityState.Modified;
+                db.Entry(site_Users).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(country);
+            ViewBag.User_Role = new SelectList(db.Site_Roles, "Role_Code", "Role_Name", site_Users.User_Role);
+            return View(site_Users);
         }
 
-        // GET: Countries/Delete/5
-        [Authorize(Roles = "Admin")]
-        public ActionResult Delete(string id)
+        // GET: SiteUsers/Delete/5
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Country country = db.Countries.Find(id);
-            if (country == null)
+            Site_Users site_Users = db.Site_Users.Find(id);
+            if (site_Users == null)
             {
                 return HttpNotFound();
             }
-            return View(country);
+            return View(site_Users);
         }
 
-        // POST: Countries/Delete/5
+        // POST: SiteUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            Country country = db.Countries.Find(id);
-            db.Countries.Remove(country);
+            Site_Users site_Users = db.Site_Users.Find(id);
+            db.Site_Users.Remove(site_Users);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -137,12 +130,6 @@ namespace GeoPedia.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        //Custom code
-        public JsonResult IsCodeAvailable(string code)
-        {
-            return Json(!db.Countries.Any(c => c.Code.ToUpper() == code.ToUpper()), JsonRequestBehavior.AllowGet);
         }
     }
 }

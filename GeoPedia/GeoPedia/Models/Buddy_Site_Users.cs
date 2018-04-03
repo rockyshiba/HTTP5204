@@ -12,7 +12,18 @@ namespace GeoPedia.Models
         class Site_UsersMetaData
         {
             [DataType(DataType.Password)]
-            public string Password { get; set; }
+            public string Password
+            {
+                get
+                {
+                    return Password;
+                }
+                set
+                {
+                    string plaintext = value;
+                    Password = Encryptor.Sha256String(plaintext);
+                }
+            }
         }
     }
 }

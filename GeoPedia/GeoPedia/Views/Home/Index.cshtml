@@ -1,7 +1,36 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Custom_Layout.cshtml";
 }
+<div class="row">
+    <div class="col-lg-6">
+        <h3 class="text-center">@Html.ActionLink("Explore Countries", "Index", "Countries", null, null)</h3>
+    </div>
+    <div class="col-lg-6">
+        <h3 class="text-center">@Html.ActionLink("Explore Cities", "Index", "Cities", null, null)</h3>
+    </div>
+</div>
+<h3 class="text-center">Search for a Country or City</h3>
+<div class="row">
 
-<h2>Homepage</h2>
+    <div class="col-lg-6 col-lg-offset-3">
+        @using (Ajax.BeginForm("Countries_Cities_Search", "Home",
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    UpdateTargetId = "search-results",
+                    InsertionMode = InsertionMode.Replace
+                },
+                new { id = "search-form", autocomplete = "off" }
+            ))
+        {
+            <input type="text" id="search-term" name="term" class="form-control" placeholder="Search for a country or city here..."/>
+        }
+        <div id="search-results">
 
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/Home/Home_Index_Ajax_Search.js"></script>
