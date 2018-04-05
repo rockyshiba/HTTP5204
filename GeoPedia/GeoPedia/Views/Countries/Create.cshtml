@@ -8,7 +8,7 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Countries", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -53,6 +53,13 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Established, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Established, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Flag_Img, htmlAttributes: new { @class = "control-label col-md-2"})
+            <div class="col-md-10">
+                <input type="file" name="file" id="file" />
             </div>
         </div>
 

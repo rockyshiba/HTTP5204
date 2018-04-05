@@ -8,7 +8,7 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Countries", FormMethod.Post, new { enctype="multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -47,6 +47,20 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Established, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Established, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Flag_Img, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="file" id="file" />
+                @Html.DisplayFor(model => model.Flag_Img)
+                @if (Model.Flag_Img != "")
+                {
+                    @Html.ActionLink("Remove flag", "DeleteFlag", new { id = Model.Code })
+                    <!--<img src="~/Images/Countries/@Model.Code/@Model.Flag_Img" alt="Flag for @Model.Name" /> -->
+                    <img src="@Url.Content("~/Images/Countries/" + Model.Code + "/" + Model.Flag_Img)" alt="Flag for @Model.Name" />
+                }
             </div>
         </div>
 

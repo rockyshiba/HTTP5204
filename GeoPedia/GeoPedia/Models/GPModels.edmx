@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ClassExampleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ClassExampleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="Id" />
@@ -25,6 +25,7 @@
           <Property Name="Continent" Type="varchar" MaxLength="50" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Established" Type="date" />
+          <Property Name="Flag_Img" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Site_Roles">
           <Key>
@@ -82,8 +83,7 @@
             <End Role="Site_Users" EntitySet="Site_Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ClassExampleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -109,6 +109,7 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Established" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Cities" Relationship="Self.city_country_code_fk" FromRole="Country" ToRole="City" />
+          <Property Name="Flag_Img" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Site_Roles">
           <Key>
@@ -189,6 +190,7 @@
           <EntitySetMapping Name="Countries">
             <EntityTypeMapping TypeName="ClassExampleModel.Country">
               <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="Flag_Img" ColumnName="Flag_Img" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Population" ColumnName="Population" />
                 <ScalarProperty Name="Continent" ColumnName="Continent" />

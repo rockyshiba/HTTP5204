@@ -45,6 +45,14 @@
 
     </dl>
 </div>
+
+<div>
+    @Html.DisplayNameFor(model => model.Flag_Img)
+    <div>
+        <img src="@Url.Content("~/Images/Countries/" + Model.Code + "/" + Model.Flag_Img)" alt="Flag image for @Model.Name" />
+    </div>
+</div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Code }) |
     @Html.ActionLink("Back to List", "Index")

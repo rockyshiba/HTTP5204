@@ -25,6 +25,7 @@ namespace GeoPedia.Models
         public string Continent { get; set; }
         public string Name { get; set; }
         public Nullable<System.DateTime> Established { get; set; }
+        public string Flag_Img { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<City> Cities { get; set; }

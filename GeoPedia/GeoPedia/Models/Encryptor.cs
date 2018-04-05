@@ -9,6 +9,7 @@ namespace GeoPedia.Models
 {
     public static class Encryptor
     {
+        //Source: https://stackoverflow.com/questions/12416249/hashing-a-string-with-sha256
         public static string Sha256String(string plaintext)
         {
             HashAlgorithm crypt = new SHA256Managed();
